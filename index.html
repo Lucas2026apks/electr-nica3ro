@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Oficial - Electrónica 3.° Año</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --success: #16a34a;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+
+        /* Header Ejecutivo */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+        header p { color: #94a3b8; font-size: 0.95rem; }
+        .location-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Contenedor Principal */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        /* Panel de Resumen de Cotización */
+        .summary-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .summary-info h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .battery-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .battery-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: var(--bg-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .total-box {
+            text-align: right;
+        }
+        .total-box span { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .total-box h2 { font-size: 1.8rem; color: var(--accent); font-weight: 700; }
+
+        /* Grid de Productos */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .item-num {
+            font-size: 0.75rem;
+            background: var(--bg-light);
+            color: var(--text-muted);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .badge-stock {
+            font-size: 0.75rem;
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            min-height: 2.4rem;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: auto;
+        }
+        .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .quantity {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Botón de Acción / WhatsApp */
+        .action-bar {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2);
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .btn-whatsapp:hover { background-color: #22bf5b; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--primary);
+            color: #94a3b8;
+            font-size: 0.85rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .summary-card { flex-direction: column; align-items: stretch; text-align: center; }
+            .total-box { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>LABORATORIO DE ELECTRÓNICA</h1>
+        <p>Kit de Componentes y Materiales Académicos - 3.° Año</p>
+        <div class="location-badge">📍 Ubicación: Calle Los Junos Colegio MVD | 📞 WhatsApp: 62076449</div>
+    </header>
+
+    <div class="container">
+
+        <!-- Panel de Opciones y Total Dinámico -->
+        <div class="summary-card">
+            <div class="summary-info">
+                <h3>Configuración de Alimentación</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Seleccione el tipo de batería requerida para las prácticas:</p>
+                <div class="battery-selector" style="margin-top: 0.75rem;">
+                    <label class="battery-option">
+                        <input type="radio" name="batteryType" value="normal" checked onchange="calcularTotal()">
+                        <span>Baterías 9V Normales (13 Bs c/u)</span>
+                    </label>
+                    <label class="battery-option">
+                        <input type="radio" name="batteryType" value="rechargeable" onchange="calcularTotal()">
+                        <span>Baterías 18650 Recargables (Par: 90 Bs)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="total-box">
+                <span>Total Estimado</span>
+                <h2 id="total-price">0.00 Bs</h2>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS DE ELECTRÓNICA -->
+        <div class="grid" id="product-grid"></div>
+
+        <!-- Botón de Pedido por WhatsApp -->
+        <div class="action-bar">
+            <a href="#" id="whatsapp-link" class="btn-whatsapp" target="_blank">
+                📱 Enviar Pedido por WhatsApp (62076449)
+            </a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Ubicación: Calle Los Junos Colegio MVD | Teléfono: 62076449</p>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "Arduino UNO R3 SMD", price: 76.00, qty: 1, unit: "Unidad", category: "Microcontroladores" },
+            { id: 2, name: "Cables Dupont 30 cm (M-M, H-H, M-H)", price: 26.00, qty: 3, unit: "Fajas", category: "Conexión" },
+            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", price: 96.00, qty: 1, unit: "Kit", category: "Robótica" },
+            { id: 4, name: "Protoboard (830 puntos)", price: 19.00, qty: 1, unit: "Unidad", category: "Pruebas" },
+            { id: 5, name: "Módulo Puente H L298N", price: 13.00, qty: 1, unit: "Unidad", category: "Potencia" },
+            { id: 6, name: "Módulo Bluetooth HC-05", price: 59.00, qty: 1, unit: "Unidad", category: "Comunicación" },
+            { id: 7, name: "Circuito Integrado LM3914", price: 13.00, qty: 1, unit: "Unidad", category: "ICs" },
+            { id: 8, name: "LEDs de 5mm (Variados)", price: 1.75, qty: 20, unit: "Unidades", category: "Optoelectrónica" },
+            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", price: 2.00, qty: 7, unit: "Unidades", category: "Pasivos" },
+            { id: 10, name: "Circuito Integrado LM555", price: 5.00, qty: 1, unit: "Unidad", category: "ICs" },
+            { id: 11, name: "Transistores 2N3904 / 2N3906", price: 2.00, qty: 2, unit: "Unidades", category: "Semiconductores" },
+            { id: 12, name: "Potenciómetros (1k y 10k)", price: 5.00, qty: 2, unit: "Unidades", category: "Pasivos" },
+            { id: 13, name: "Ácido Férrico (250 ml)", price: 19.00, qty: 1, unit: "Frasco", category: "Circuitos Impresos" },
+            { id: 14, name: "Kit de 300 Resistencias de precisión 1/2W", price: 47.00, qty: 1, unit: "Kit", category: "Pasivos" },
+            { id: 15, name: "Tiristor SCR (C106D)", price: 6.00, qty: 1, unit: "Unidad", category: "Semiconductores" },
+            { id: 16, name: "Diodo 1N4002/1N4007", price: 2.00, qty: 1, unit: "Unidad", category: "Semiconductores" },
+            { id: 17, name: "Fotocelda (Resistencia LDR)", price: 4.00, qty: 1, unit: "Unidad", category: "Sensores" },
+            { id: 18, name: "Conector de Batería 9V", price: 5.00, qty: 1, unit: "Unidad", category: "Alimentación" },
+            { id: 19, name: "Pulsador 2 pines", price: 2.00, qty: 2, unit: "Unidades", category: "Electromecánica" },
+            { id: 20, name: "Cautín Mango de Madera 60W (CTP060)", price: 31.00, qty: 1, unit: "Unidad", tag: "Herramienta", category: "Equipamiento" },
+            { id: 21, name: "Multímetro Digital Uyustools TSD9205A", price: 86.00, qty: 1, unit: "Unidad", tag: "Esencial", category: "Medición" },
+            { id: 22, name: "Sensor Infrarrojo TCRT5000", price: 7.00, qty: 1, unit: "Unidad", category: "Sensores" }
+        ];
+
+        const powerOptions = {
+            normal: { name: "Baterías 9V Normales (2 unidades)", price: 13.00, qty: 2 },
+            rechargeable: { name: "Baterías 18650 Recargables (Par)", price: 90.00, qty: 1 }
+        };
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            products.forEach(item => {
+                const subtotal = item.price * item.qty;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="item-num">Item #${item.id}</span>
+                            <span class="badge-stock">${item.tag || item.category}</span>
+                        </div>
+                        <div class="card-title">${item.name}</div>
+                    </div>
+                    <div class="card-footer">
+                        <div>
+                            <span class="price">${item.price.toFixed(2)} Bs</span>
+                            <span class="quantity">(${item.qty} ${item.unit})</span>
+                        </div>
+                        <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
+                            Sub: ${subtotal.toFixed(2)} Bs
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function calcularTotal() {
+            let total = products.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            const selectedBattery = document.querySelector('input[name="batteryType"]:checked').value;
+            const currentBattery = powerOptions[selectedBattery];
+            
+            total += currentBattery.price;
+
+            document.getElementById('total-price').innerText = total.toFixed(2) + " Bs";
+
+            const mensaje = encodeURIComponent(`Hola, deseo adquirir el kit completo de electrónica para 3.° año (Calle Los Junos Colegio MVD) con la opción de *${currentBattery.name}*. El total estimado es de *${total.toFixed(2)} Bs*.`);
+            document.getElementById('whatsapp-link').href = `https://wa.me/59162076449?text=${mensaje}`;
+        }
+
+        renderProducts();
+        calcularTotal();
+    </script>
+</body>
+</html>
