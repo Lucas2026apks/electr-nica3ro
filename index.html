@@ -81,6 +81,25 @@
         .total-box span { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
         .total-box h2 { font-size: 1.8rem; color: var(--accent); font-weight: 700; }
 
+        /* Barra de Control (Botón Seleccionar Todo) */
+        .controls-bar {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .btn-select-all {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-select-all:hover { background-color: #1e293b; }
+
         /* Grid de Productos */
         .grid {
             display: grid;
@@ -90,21 +109,24 @@
         .card {
             background: var(--white);
             border-radius: 10px;
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             padding: 1.25rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
         }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+        .card.selected {
+            border-color: var(--accent);
+            background-color: #fefefe;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
         }
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 0.75rem;
         }
         .item-num {
@@ -115,13 +137,11 @@
             border-radius: 4px;
             font-weight: 600;
         }
-        .badge-stock {
-            font-size: 0.75rem;
-            background: #dcfce7;
-            color: #166534;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-weight: 500;
+        .card input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
         }
         .card-title {
             font-size: 0.95rem;
@@ -213,9 +233,14 @@
                 </div>
             </div>
             <div class="total-box">
-                <span>Total Estimado</span>
+                <span>Total Seleccionado</span>
                 <h2 id="total-price">0.00 Bs</h2>
             </div>
+        </div>
+
+        <!-- Botón Seleccionar Todo -->
+        <div class="controls-bar">
+            <button class="btn-select-all" onclick="toggleSelectAll()" id="btnSelectAllText">✅ Seleccionar Todo</button>
         </div>
 
         <!-- PRODUCTOS DE ELECTRÓNICA -->
@@ -224,7 +249,7 @@
         <!-- Botón de Pedido por WhatsApp -->
         <div class="action-bar">
             <a href="#" id="whatsapp-link" class="btn-whatsapp" target="_blank">
-                📱 Enviar Pedido por WhatsApp (62076449)
+                📱 Enviar Pedido Seleccionado por WhatsApp (62076449)
             </a>
         </div>
 
@@ -236,28 +261,28 @@
 
     <script>
         const products = [
-            { id: 1, name: "Arduino UNO R3 SMD", price: 76.00, qty: 1, unit: "Unidad", category: "Microcontroladores" },
-            { id: 2, name: "Cables Dupont 30 cm (M-M, H-H, M-H)", price: 26.00, qty: 3, unit: "Fajas", category: "Conexión" },
-            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", price: 96.00, qty: 1, unit: "Kit", category: "Robótica" },
-            { id: 4, name: "Protoboard (830 puntos)", price: 19.00, qty: 1, unit: "Unidad", category: "Pruebas" },
-            { id: 5, name: "Módulo Puente H L298N", price: 13.00, qty: 1, unit: "Unidad", category: "Potencia" },
-            { id: 6, name: "Módulo Bluetooth HC-05", price: 59.00, qty: 1, unit: "Unidad", category: "Comunicación" },
-            { id: 7, name: "Circuito Integrado LM3914", price: 13.00, qty: 1, unit: "Unidad", category: "ICs" },
-            { id: 8, name: "LEDs de 5mm (Variados)", price: 1.75, qty: 20, unit: "Unidades", category: "Optoelectrónica" },
-            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", price: 2.00, qty: 7, unit: "Unidades", category: "Pasivos" },
-            { id: 10, name: "Circuito Integrado LM555", price: 5.00, qty: 1, unit: "Unidad", category: "ICs" },
-            { id: 11, name: "Transistores 2N3904 / 2N3906", price: 2.00, qty: 2, unit: "Unidades", category: "Semiconductores" },
-            { id: 12, name: "Potenciómetros (1k y 10k)", price: 5.00, qty: 2, unit: "Unidades", category: "Pasivos" },
-            { id: 13, name: "Ácido Férrico (250 ml)", price: 19.00, qty: 1, unit: "Frasco", category: "Circuitos Impresos" },
-            { id: 14, name: "Kit de 300 Resistencias de precisión 1/2W", price: 47.00, qty: 1, unit: "Kit", category: "Pasivos" },
-            { id: 15, name: "Tiristor SCR (C106D)", price: 6.00, qty: 1, unit: "Unidad", category: "Semiconductores" },
-            { id: 16, name: "Diodo 1N4002/1N4007", price: 2.00, qty: 1, unit: "Unidad", category: "Semiconductores" },
-            { id: 17, name: "Fotocelda (Resistencia LDR)", price: 4.00, qty: 1, unit: "Unidad", category: "Sensores" },
-            { id: 18, name: "Conector de Batería 9V", price: 5.00, qty: 1, unit: "Unidad", category: "Alimentación" },
-            { id: 19, name: "Pulsador 2 pines", price: 2.00, qty: 2, unit: "Unidades", category: "Electromecánica" },
-            { id: 20, name: "Cautín Mango de Madera 60W (CTP060)", price: 31.00, qty: 1, unit: "Unidad", tag: "Herramienta", category: "Equipamiento" },
-            { id: 21, name: "Multímetro Digital Uyustools TSD9205A", price: 86.00, qty: 1, unit: "Unidad", tag: "Esencial", category: "Medición" },
-            { id: 22, name: "Sensor Infrarrojo TCRT5000", price: 7.00, qty: 1, unit: "Unidad", category: "Sensores" }
+            { id: 1, name: "Arduino UNO R3 SMD", price: 76.00, qty: 1, unit: "Unidad" },
+            { id: 2, name: "Cables Dupont 30 cm (M-M, H-H, M-H)", price: 26.00, qty: 3, unit: "Fajas" },
+            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", price: 96.00, qty: 1, unit: "Kit" },
+            { id: 4, name: "Protoboard (830 puntos)", price: 19.00, qty: 1, unit: "Unidad" },
+            { id: 5, name: "Módulo Puente H L298N", price: 13.00, qty: 1, unit: "Unidad" },
+            { id: 6, name: "Módulo Bluetooth HC-05", price: 59.00, qty: 1, unit: "Unidad" },
+            { id: 7, name: "Circuito Integrado LM3914", price: 13.00, qty: 1, unit: "Unidad" },
+            { id: 8, name: "LEDs de 5mm (Variados)", price: 1.75, qty: 20, unit: "Unidades" },
+            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", price: 2.00, qty: 7, unit: "Unidades" },
+            { id: 10, name: "Circuito Integrado LM555", price: 5.00, qty: 1, unit: "Unidad" },
+            { id: 11, name: "Transistores 2N3904 / 2N3906", price: 2.00, qty: 2, unit: "Unidades" },
+            { id: 12, name: "Potenciómetros (1k y 10k)", price: 5.00, qty: 2, unit: "Unidades" },
+            { id: 13, name: "Ácido Férrico (250 ml)", price: 19.00, qty: 1, unit: "Frasco" },
+            { id: 14, name: "Kit de 300 Resistencias de precisión 1/2W", price: 47.00, qty: 1, unit: "Kit" },
+            { id: 15, name: "Tiristor SCR (C106D)", price: 6.00, qty: 1, unit: "Unidad" },
+            { id: 16, name: "Diodo 1N4002/1N4007", price: 2.00, qty: 1, unit: "Unidad" },
+            { id: 17, name: "Fotocelda (Resistencia LDR)", price: 4.00, qty: 1, unit: "Unidad" },
+            { id: 18, name: "Conector de Batería 9V", price: 5.00, qty: 1, unit: "Unidad" },
+            { id: 19, name: "Pulsador 2 pines", price: 2.00, qty: 2, unit: "Unidades" },
+            { id: 20, name: "Cautín Mango de Madera 60W (CTP060)", price: 31.00, qty: 1, unit: "Unidad" },
+            { id: 21, name: "Multímetro Digital Uyustools TSD9205A", price: 86.00, qty: 1, unit: "Unidad" },
+            { id: 22, name: "Sensor Infrarrojo TCRT5000", price: 7.00, qty: 1, unit: "Unidad" }
         ];
 
         const powerOptions = {
@@ -265,19 +290,22 @@
             rechargeable: { name: "Baterías 18650 Recargables (Par)", price: 90.00, qty: 1 }
         };
 
+        let allSelected = false;
+
         function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
             products.forEach(item => {
-                const subtotal = item.price * item.qty;
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'card'; // Inician sin seleccionar (sin clase 'selected')
+                card.id = `card-${item.id}`;
+                
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
                             <span class="item-num">Item #${item.id}</span>
-                            <span class="badge-stock">${item.tag || item.category}</span>
+                            <input type="checkbox" id="check-${item.id}" onchange="toggleCard(${item.id})">
                         </div>
                         <div class="card-title">${item.name}</div>
                     </div>
@@ -287,26 +315,75 @@
                             <span class="quantity">(${item.qty} ${item.unit})</span>
                         </div>
                         <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
-                            Sub: ${subtotal.toFixed(2)} Bs
+                            Sub: ${(item.price * item.qty).toFixed(2)} Bs
                         </div>
                     </div>
                 `;
+
+                // Permitir hacer clic en toda la tarjeta para marcar/desmarcar
+                card.onclick = (e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        const chk = document.getElementById(`check-${item.id}`);
+                        chk.checked = !chk.checked;
+                        toggleCard(item.id);
+                    }
+                };
+
                 grid.appendChild(card);
             });
         }
 
+        function toggleCard(id) {
+            const chk = document.getElementById(`check-${id}`);
+            const card = document.getElementById(`card-${id}`);
+            if (chk.checked) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+            calcularTotal();
+        }
+
+        function toggleSelectAll() {
+            allSelected = !allSelected;
+            products.forEach(item => {
+                const chk = document.getElementById(`check-${item.id}`);
+                const card = document.getElementById(`card-${item.id}`);
+                chk.checked = allSelected;
+                if (allSelected) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            document.getElementById('btnSelectAllText').innerText = allSelected ? "❌ Deseleccionar Todo" : "✅ Seleccionar Todo";
+            calcularTotal();
+        }
+
         function calcularTotal() {
-            let total = products.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            
+            let total = 0;
+            let listaItems = [];
+
+            products.forEach(item => {
+                const chk = document.getElementById(`check-${item.id}`);
+                if (chk && chk.checked) {
+                    const sub = item.price * item.qty;
+                    total += sub;
+                    listaItems.push(`- ${item.qty}x ${item.name} (${sub.toFixed(2)} Bs)`);
+                }
+            });
+
             const selectedBattery = document.querySelector('input[name="batteryType"]:checked').value;
             const currentBattery = powerOptions[selectedBattery];
             
             total += currentBattery.price;
+            listaItems.push(`- Alimentación: ${currentBattery.name} (${currentBattery.price.toFixed(2)} Bs)`);
 
             document.getElementById('total-price').innerText = total.toFixed(2) + " Bs";
 
-            const mensaje = encodeURIComponent(`Hola, deseo adquirir el kit completo de electrónica para 3.° año (Calle Los Junos Colegio MVD) con la opción de *${currentBattery.name}*. El total estimado es de *${total.toFixed(2)} Bs*.`);
-            document.getElementById('whatsapp-link').href = `https://wa.me/59162076449?text=${mensaje}`;
+            const textoMensaje = `HOLA,quiero comprar estos materiales de electrónica:\n\n${listaItems.join('\n')}\n\n*TOTAL A PAGAR: ${total.toFixed(2)} Bs*`;
+            const mensajeEncoded = encodeURIComponent(textoMensaje);
+            document.getElementById('whatsapp-link').href = `https://wa.me/59162076449?text=${mensajeEncoded}`;
         }
 
         renderProducts();
