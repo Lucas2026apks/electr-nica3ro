@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Oficial - Electrónica 3.° Año</title>
+    <title>Catálogo Oficial - Electrónica</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,7 +20,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
 
-        /* Header Ejecutivo */
         header {
             background-color: var(--primary);
             color: var(--white);
@@ -40,10 +39,8 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Contenedor Principal */
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
 
-        /* Panel de Resumen de Cotización */
         .summary-card {
             background: var(--white);
             border: 1px solid var(--border);
@@ -81,7 +78,6 @@
         .total-box span { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
         .total-box h2 { font-size: 1.8rem; color: var(--accent); font-weight: 700; }
 
-        /* Barra de Control (Botón Seleccionar Todo) */
         .controls-bar {
             margin-bottom: 1.5rem;
             display: flex;
@@ -100,7 +96,6 @@
         }
         .btn-select-all:hover { background-color: #1e293b; }
 
-        /* Grid de Productos */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -159,7 +154,7 @@
             margin-top: auto;
         }
         .price {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--primary);
         }
@@ -168,7 +163,6 @@
             color: var(--text-muted);
         }
 
-        /* Botón de Acción / WhatsApp */
         .action-bar {
             text-align: center;
             margin: 3rem 0;
@@ -210,25 +204,24 @@
 
     <header>
         <h1>LABORATORIO DE ELECTRÓNICA</h1>
-        <p>Kit de Componentes y Materiales Académicos - 3.° Año</p>
-        <div class="location-badge">📍 Ubicación: Calle Los Junos Colegio MVD | 📞 WhatsApp: 62076449</div>
+        <p>Kit de Componentes y Materiales Académicos</p>
+        <div class="location-badge">📞 WhatsApp: 62076449</div>
     </header>
 
     <div class="container">
 
-        <!-- Panel de Opciones y Total Dinámico -->
         <div class="summary-card">
             <div class="summary-info">
                 <h3>Configuración de Alimentación</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Seleccione el tipo de batería requerida para las prácticas:</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Seleccione el tipo de batería requerida:</p>
                 <div class="battery-selector" style="margin-top: 0.75rem;">
                     <label class="battery-option">
                         <input type="radio" name="batteryType" value="normal" checked onchange="calcularTotal()">
-                        <span>Baterías 9V Normales (13 Bs c/u)</span>
+                        <span>Baterías 9V Normales (13.00 Bs)[span_0](start_span)[span_0](end_span)</span>
                     </label>
                     <label class="battery-option">
                         <input type="radio" name="batteryType" value="rechargeable" onchange="calcularTotal()">
-                        <span>Baterías 18650 Recargables (Par: 90 Bs)</span>
+                        <span>Baterías 18650 Recargables (Par: 77.00 Bs)[span_1](start_span)[span_1](end_span)</span>
                     </label>
                 </div>
             </div>
@@ -238,15 +231,12 @@
             </div>
         </div>
 
-        <!-- Botón Seleccionar Todo -->
         <div class="controls-bar">
             <button class="btn-select-all" onclick="toggleSelectAll()" id="btnSelectAllText">✅ Seleccionar Todo</button>
         </div>
 
-        <!-- PRODUCTOS DE ELECTRÓNICA -->
         <div class="grid" id="product-grid"></div>
 
-        <!-- Botón de Pedido por WhatsApp -->
         <div class="action-bar">
             <a href="#" id="whatsapp-link" class="btn-whatsapp" target="_blank">
                 📱 Enviar Pedido Seleccionado por WhatsApp (62076449)
@@ -256,38 +246,38 @@
     </div>
 
     <footer>
-        <p>Ubicación: Calle Los Junos Colegio MVD | Teléfono: 62076449</p>
+        <p>Catálogo de Componentes Electrónicos | Teléfono: 62076449</p>
     </footer>
 
     <script>
         const products = [
-            { id: 1, name: "Arduino UNO R3 SMD", price: 76.00, qty: 1, unit: "Unidad" },
-            { id: 2, name: "Cables Dupont 30 cm (M-M, H-H, M-H)", price: 26.00, qty: 3, unit: "Fajas" },
-            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", price: 96.00, qty: 1, unit: "Kit" },
-            { id: 4, name: "Protoboard (830 puntos)", price: 19.00, qty: 1, unit: "Unidad" },
-            { id: 5, name: "Módulo Puente H L298N", price: 13.00, qty: 1, unit: "Unidad" },
-            { id: 6, name: "Módulo Bluetooth HC-05", price: 59.00, qty: 1, unit: "Unidad" },
-            { id: 7, name: "Circuito Integrado LM3914", price: 13.00, qty: 1, unit: "Unidad" },
-            { id: 8, name: "LEDs de 5mm (Variados)", price: 1.75, qty: 20, unit: "Unidades" },
-            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", price: 2.00, qty: 7, unit: "Unidades" },
-            { id: 10, name: "Circuito Integrado LM555", price: 5.00, qty: 1, unit: "Unidad" },
-            { id: 11, name: "Transistores 2N3904 / 2N3906", price: 2.00, qty: 2, unit: "Unidades" },
-            { id: 12, name: "Potenciómetros (1k y 10k)", price: 5.00, qty: 2, unit: "Unidades" },
-            { id: 13, name: "Ácido Férrico (250 ml)", price: 19.00, qty: 1, unit: "Frasco" },
-            { id: 14, name: "Kit de 300 Resistencias de precisión 1/2W", price: 47.00, qty: 1, unit: "Kit" },
-            { id: 15, name: "Tiristor SCR (C106D)", price: 6.00, qty: 1, unit: "Unidad" },
-            { id: 16, name: "Diodo 1N4002/1N4007", price: 2.00, qty: 1, unit: "Unidad" },
-            { id: 17, name: "Fotocelda (Resistencia LDR)", price: 4.00, qty: 1, unit: "Unidad" },
-            { id: 18, name: "Conector de Batería 9V", price: 5.00, qty: 1, unit: "Unidad" },
-            { id: 19, name: "Pulsador 2 pines", price: 2.00, qty: 2, unit: "Unidades" },
-            { id: 20, name: "Cautín Mango de Madera 60W (CTP060)", price: 31.00, qty: 1, unit: "Unidad" },
-            { id: 21, name: "Multímetro Digital Uyustools TSD9205A", price: 86.00, qty: 1, unit: "Unidad" },
-            { id: 22, name: "Sensor Infrarrojo TCRT5000", price: 7.00, qty: 1, unit: "Unidad" }
+            { id: 1, name: "Arduino UNO R3 SMD", unitPrice: 76.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 2, name: "Cables Dupont 30 cm (3 fajas)", unitPrice: 26.00, qty: 3, unit: "Fajas", tag: "Disponible" },
+            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", unitPrice: 96.00, qty: 1, unit: "Kit", tag: "Disponible / Ref." },
+            { id: 4, name: "Protoboard (830 puntos)", unitPrice: 19.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 5, name: "Módulo Puente H L298N", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 6, name: "Módulo Bluetooth HC-05", unitPrice: 59.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 7, name: "Circuito Integrado LM3914", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 8, name: "LEDs de 5mm (Paquete de 20 uds)", unitPrice: 1.75, qty: 20, unit: "Unidades", tag: "Disponible" },
+            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", unitPrice: 2.00, qty: 7, unit: "Unidades", tag: "Disponible" },
+            { id: 10, name: "Circuito Integrado LM555", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 11, name: "Transistores 2N3904 / 2N3906", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible" },
+            { id: 12, name: "Potenciómetros (1k y 10k)", unitPrice: 5.00, qty: 2, unit: "Unidades", tag: "Disponible" },
+            { id: 13, name: "Ácido Férrico (250 ml)", unitPrice: 19.00, qty: 1, unit: "Frasco", tag: "Disponible" },
+            { id: 14, name: "Kit de 300 Resistencias 1/2W", unitPrice: 47.00, qty: 1, unit: "Kit", tag: "Disponible" },
+            { id: 15, name: "Tiristor SCR (C106D)", unitPrice: 6.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 16, name: "Diodo 1N4002 / 1N4007", unitPrice: 2.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 17, name: "Fotocelda (Resistencia LDR)", unitPrice: 4.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 18, name: "Conector de Batería 9V", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 19, name: "Pulsador 2 pines", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible" },
+            { id: 20, name: "Cautín Mango de Madera 60W", unitPrice: 31.00, qty: 1, unit: "Unidad", tag: "Oferta Web" },
+            { id: 21, name: "Multímetro Digital Uyustools", unitPrice: 86.00, qty: 1, unit: "Unidad", tag: "Disponible" },
+            { id: 22, name: "Módulo Infrarrojo TCRT5000", unitPrice: 13.00, qty: 2, unit: "Unidades", tag: "Disponible" }
         ];
 
         const powerOptions = {
-            normal: { name: "Baterías 9V Normales (2 unidades)", price: 13.00, qty: 2 },
-            rechargeable: { name: "Baterías 18650 Recargables (Par)", price: 90.00, qty: 1 }
+            normal: { name: "Baterías 9V Normales (2 unidades)", price: 13.00 },
+            rechargeable: { name: "Baterías 18650 Recargables (Par)", price: 77.00 }
         };
 
         let allSelected = false;
@@ -296,31 +286,29 @@
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
-            products.forEach(item => {
+            products.forEach((item, index) => {
+                const subtotal = item.unitPrice * item.qty;
                 const card = document.createElement('div');
-                card.className = 'card'; // Inician sin seleccionar (sin clase 'selected')
+                card.className = 'card';
                 card.id = `card-${item.id}`;
                 
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
-                            <span class="item-num">Item #${item.id}</span>
+                            <span class="item-num">Item #${index + 1}</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted);">${item.tag}</span>
                             <input type="checkbox" id="check-${item.id}" onchange="toggleCard(${item.id})">
                         </div>
                         <div class="card-title">${item.name}</div>
                     </div>
                     <div class="card-footer">
                         <div>
-                            <span class="price">${item.price.toFixed(2)} Bs</span>
-                            <span class="quantity">(${item.qty} ${item.unit})</span>
-                        </div>
-                        <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
-                            Sub: ${(item.price * item.qty).toFixed(2)} Bs
+                            <span class="price">Total: ${subtotal.toFixed(2)} Bs</span>
+                            <span class="quantity">(${item.qty} ${item.unit} • ${item.unitPrice.toFixed(2)} c/u)</span>
                         </div>
                     </div>
                 `;
 
-                // Permitir hacer clic en toda la tarjeta para marcar/desmarcar
                 card.onclick = (e) => {
                     if (e.target.tagName !== 'INPUT') {
                         const chk = document.getElementById(`check-${item.id}`);
@@ -367,9 +355,9 @@
             products.forEach(item => {
                 const chk = document.getElementById(`check-${item.id}`);
                 if (chk && chk.checked) {
-                    const sub = item.price * item.qty;
-                    total += sub;
-                    listaItems.push(`- ${item.qty}x ${item.name} (${sub.toFixed(2)} Bs)`);
+                    const subtotal = item.unitPrice * item.qty;
+                    total += subtotal;
+                    listaItems.push(`- ${item.qty}x ${item.name} (${subtotal.toFixed(2)} Bs)`);
                 }
             });
 
@@ -381,7 +369,7 @@
 
             document.getElementById('total-price').innerText = total.toFixed(2) + " Bs";
 
-            const textoMensaje = `HOLA,quiero comprar estos materiales de electrónica:\n\n${listaItems.join('\n')}\n\n*TOTAL A PAGAR: ${total.toFixed(2)} Bs*`;
+            const textoMensaje = `Hola, deseo realizar el siguiente pedido de componentes:\n\n${listaItems.join('\n')}\n\n*TOTAL A PAGAR: ${total.toFixed(2)} Bs*`;
             const mensajeEncoded = encodeURIComponent(textoMensaje);
             document.getElementById('whatsapp-link').href = `https://wa.me/59162076449?text=${mensajeEncoded}`;
         }
