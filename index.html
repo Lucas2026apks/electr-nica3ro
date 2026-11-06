@@ -110,7 +110,6 @@
             flex-direction: column;
             justify-content: space-between;
             transition: all 0.2s;
-            cursor: pointer;
             position: relative;
         }
         .card.selected {
@@ -141,10 +140,15 @@
         .card-title {
             font-size: 0.95rem;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--accent);
             margin-bottom: 1rem;
             min-height: 2.4rem;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
         }
+        .card-title:hover { color: #1d4ed8; }
+
         .card-footer {
             display: flex;
             justify-content: space-between;
@@ -162,6 +166,50 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
+
+        /* Estilos del Modal de Imagen */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .modal-content img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: var(--bg-light);
+        }
+        .modal-content h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem; }
+        .close-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .close-btn:hover { background: #1e293b; }
 
         .action-bar {
             text-align: center;
@@ -245,34 +293,46 @@
 
     </div>
 
+    <!-- Modal para ver la imagen del producto -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 id="modal-title">Nombre del Producto</h3>
+            <img id="modal-img" src="" alt="Imagen del componente">
+            <br>
+            <button class="close-btn" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
     <footer>
         <p>Catálogo de Componentes Electrónicos | Teléfono: 62076449</p>
     </footer>
 
     <script>
+        const repoBaseUrl = "https://raw.githubusercontent.com/Lucas2026apks/Items/main/";
+
         const products = [
-            { id: 1, name: "Arduino UNO R3 SMD", unitPrice: 76.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 2, name: "Cables Dupont 30 cm (3 fajas)", unitPrice: 26.00, qty: 3, unit: "Fajas", tag: "Disponible" },
-            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", unitPrice: 96.00, qty: 1, unit: "Kit", tag: "Disponible / Ref." },
-            { id: 4, name: "Protoboard (830 puntos)", unitPrice: 19.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 5, name: "Módulo Puente H L298N", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 6, name: "Módulo Bluetooth HC-05", unitPrice: 59.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 7, name: "Circuito Integrado LM3914", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 8, name: "LEDs de 5mm (Paquete de 20 uds)", unitPrice: 1.75, qty: 20, unit: "Unidades", tag: "Disponible" },
-            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", unitPrice: 2.00, qty: 7, unit: "Unidades", tag: "Disponible" },
-            { id: 10, name: "Circuito Integrado LM555", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 11, name: "Transistores 2N3904 / 2N3906", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible" },
-            { id: 12, name: "Potenciómetros (1k y 10k)", unitPrice: 5.00, qty: 2, unit: "Unidades", tag: "Disponible" },
-            { id: 13, name: "Ácido Férrico (250 ml)", unitPrice: 19.00, qty: 1, unit: "Frasco", tag: "Disponible" },
-            { id: 14, name: "Kit de 300 Resistencias 1/2W", unitPrice: 47.00, qty: 1, unit: "Kit", tag: "Disponible" },
-            { id: 15, name: "Tiristor SCR (C106D)", unitPrice: 6.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 16, name: "Diodo 1N4002 / 1N4007", unitPrice: 2.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 17, name: "Fotocelda (Resistencia LDR)", unitPrice: 4.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 18, name: "Conector de Batería 9V", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 19, name: "Pulsador 2 pines", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible" },
-            { id: 20, name: "Cautín Mango de Madera 60W", unitPrice: 31.00, qty: 1, unit: "Unidad", tag: "Oferta Web" },
-            { id: 21, name: "Multímetro Digital Uyustools", unitPrice: 86.00, qty: 1, unit: "Unidad", tag: "Disponible" },
-            { id: 22, name: "Módulo Infrarrojo TCRT5000", unitPrice: 13.00, qty: 2, unit: "Unidades", tag: "Disponible" }
+            { id: 1, name: "Arduino UNO R3 SMD", unitPrice: 76.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "arduino.png" },
+            { id: 2, name: "Cables Dupont 30 cm (3 fajas)", unitPrice: 26.00, qty: 3, unit: "Fajas", tag: "Disponible", img: "dupont.jpeg" },
+            { id: 3, name: "Chasis de auto robot (Kit TT PA BOL)", unitPrice: 96.00, qty: 1, unit: "Kit", tag: "Disponible / Ref.", img: "chasis.jpg" },
+            { id: 4, name: "Protoboard (830 puntos)", unitPrice: 19.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "protoboard.jpeg" },
+            { id: 5, name: "Módulo Puente H L298N", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "puenteH.jpeg" },
+            { id: 6, name: "Módulo Bluetooth HC-05", unitPrice: 59.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "HC-05.jpeg" },
+            { id: 7, name: "Circuito Integrado LM3914", unitPrice: 13.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "LM3914.jpeg" },
+            { id: 8, name: "LEDs de 5mm (Paquete de 20 uds)", unitPrice: 1.75, qty: 20, unit: "Unidades", tag: "Disponible", img: "leds.jpeg" },
+            { id: 9, name: "Capacitores Electrolíticos / Cerámicos", unitPrice: 2.00, qty: 7, unit: "Unidades", tag: "Disponible", img: "capacitores.jpeg" },
+            { id: 10, name: "Circuito Integrado LM555", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "1m555.jpeg" },
+            { id: 11, name: "Transistores 2N3904 / 2N3906", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible", img: "transistores.jpeg" },
+            { id: 12, name: "Potenciómetros (1k y 10k)", unitPrice: 5.00, qty: 2, unit: "Unidades", tag: "Disponible", img: "potenciometro.jpeg" },
+            { id: 13, name: "Ácido Férrico (250 ml)", unitPrice: 19.00, qty: 1, unit: "Frasco", tag: "Disponible", img: "ACIDO-500ML.jpg" },
+            { id: 14, name: "Kit de 300 Resistencias 1/2W", unitPrice: 47.00, qty: 1, unit: "Kit", tag: "Disponible", img: "resistencias300.jpeg" },
+            { id: 15, name: "Tiristor SCR (C106D)", unitPrice: 6.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "scr.webp" },
+            { id: 16, name: "Diodo 1N4002 / 1N4007", unitPrice: 2.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "diodo.jpeg" },
+            { id: 17, name: "Fotocelda (Resistencia LDR)", unitPrice: 4.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "fotocelda.jpeg" },
+            { id: 18, name: "Conector de Batería 9V", unitPrice: 5.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "conector9v.jpeg" },
+            { id: 19, name: "Pulsador 2 pines", unitPrice: 2.00, qty: 2, unit: "Unidades", tag: "Disponible", img: "pulsador.jpeg" },
+            { id: 20, name: "Cautín Mango de Madera 60W", unitPrice: 31.00, qty: 1, unit: "Unidad", tag: "Oferta Web", img: "cautin.jpeg" },
+            { id: 21, name: "Multímetro Digital Uyustools", unitPrice: 86.00, qty: 1, unit: "Unidad", tag: "Disponible", img: "uyustool.webp" },
+            { id: 22, name: "Módulo Infrarrojo TCRT5000", unitPrice: 13.00, qty: 2, unit: "Unidades", tag: "Disponible", img: "tcrt5000.jpeg" }
         ];
 
         const powerOptions = {
@@ -292,6 +352,8 @@
                 card.className = 'card';
                 card.id = `card-${item.id}`;
                 
+                const fullImgUrl = repoBaseUrl + item.img;
+
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
@@ -299,7 +361,7 @@
                             <span style="font-size:0.75rem; color:var(--text-muted);">${item.tag}</span>
                             <input type="checkbox" id="check-${item.id}" onchange="toggleCard(${item.id})">
                         </div>
-                        <div class="card-title">${item.name}</div>
+                        <div class="card-title" onclick="openModal('${item.name}', '${fullImgUrl}')">${item.name}</div>
                     </div>
                     <div class="card-footer">
                         <div>
@@ -309,16 +371,18 @@
                     </div>
                 `;
 
-                card.onclick = (e) => {
-                    if (e.target.tagName !== 'INPUT') {
-                        const chk = document.getElementById(`check-${item.id}`);
-                        chk.checked = !chk.checked;
-                        toggleCard(item.id);
-                    }
-                };
-
                 grid.appendChild(card);
             });
+        }
+
+        function openModal(name, imgSrc) {
+            document.getElementById('modal-title').innerText = name;
+            document.getElementById('modal-img').src = imgSrc;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
         }
 
         function toggleCard(id) {
